@@ -1,0 +1,26 @@
+
+"$Id: texteditor-simple.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
+
+	A simple example of Fl_Text_Editor
+
+	Fl_Text_Editor is unlike other FLTK widgets in that
+	to work correctly, it must be assigned to an instance of an
+	Fl_Text_Buffer.  The below shows using buffer() to connect
+	the two classes together.
+
+	Note that the example can also be used to demonstrate
+	Fl_Text_Display; just replace all instances of
+	Fl_Text_Editor with Fl_Text_Display and rebuild.
+
+Copyright 2010 Greg Ercolano.
+Copyright 1998-2010 by Bill Spitzak and others.
+
+This library is free software. Distribution and use rights are outlined in
+the file "COPYING" which should have been included with this file.  If this
+file is missing or damaged, see the license at:
+
+    http://www.fltk.org/COPYING.php
+
+Please report all bugs and problems on the following page:
+
+    http://www.fltk.org/str.php
