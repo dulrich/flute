@@ -11,37 +11,39 @@
 #endif
 
 #include <FL/Fl.H>
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Text_Editor.H>
 #include <FL/Fl_Tree.H>
 
 #include <Flute_Config.hh>
-#include <Flute_Controller.hh>
+#include <Flute_Window.hh>
 #include <Flute_DEFINES.hh>
 
 
-Flute_Config     *config;
-Flute_Controller *cont;
-Fl_Text_Buffer   *textBuff = new Fl_Text_Buffer();
+Flute_Config*     config;
+Flute_Window*     window;
+Fl_Text_Buffer*   buffer;
+// Fl_Button*        button;
 
-void contTreeCallback(Fl_Widget *w, void *data);
-
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	config = new Flute_Config();
 	
-	cont = new Flute_Controller(config);
+	buffer = new Fl_Text_Buffer();
+	buffer->tab_distance(4);
+	buffer->text("one\ntwo\nthree");
 	
-	textBuff->text("Hello World!");
+	window = new Flute_Window(config->getOpt("win_w"),config->getOpt("win_h"),"FLUTE",config);
 	
-	cont->init();
-	cont->setBuffer(1,textBuff);
-	cont->setTreeCallback(contTreeCallback);
-	cont->show();
+// 	button = new Fl_Button(0,0,100,50,"Hello?");
+// 	window->add(button);
 	
-	return(Fl::run());
-}
-
-void contTreeCallback(Fl_Widget *w, void *data) {
-	cont->onTreeEvent(w,data);
+	window->init();
+	
+	window->setBuffer(1,buffer);
+	Fl::visual(FL_DOUBLE|FL_INDEX);
+	window->show();
+	
+	return (Fl::run());
 }
 
