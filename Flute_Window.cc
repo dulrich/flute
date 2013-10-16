@@ -28,7 +28,19 @@ Flute_Window :: Flute_Window(int w, int h, const char* title,
 }
 
 
-void Flute_Window :: getFile() {
+void Flute_Window :: addTreePath(int which, const char* path) {
+	Fl_Tree_Item* newItem = this->w_tree->add(path);
+	this->w_tree->set_item_focus(newItem);
+};
+
+
+void Flute_Window :: removeTreePath(int which, const char* path) {
+	Fl_Tree_Item* pathItem = this->w_tree->find_item(path);
+	this->w_tree->remove(pathItem);
+};
+
+
+void Flute_Window :: getFile(int which) {
 	 Fl_Native_File_Chooser fnfc;
 	 fnfc.title("Pick a file");
 	 fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
@@ -45,7 +57,8 @@ void Flute_Window :: getFile() {
 			break;
 		default: // FILE CHOSEN
 			printf("PICKED: %s\n", fnfc.filename());
-			this->setBuffer(1,fnfc.filename());
+			this->setBuffer(which,fnfc.filename());
+			this->addTreePath(1,fnfc.filename());
 			break;
 	 }
 }
@@ -57,12 +70,21 @@ int Flute_Window :: handle(int event) {
 		
 		printf("Event %s\n",fl_eventnames[event]);
 		
-		
-		switch(event) {
-			case FL_SHORTCUT:
-				if (Fl::event_key() == 'o') this->getFile();
-				printf("Key: '%c' \n",Fl::event_key());
-				break;
+		if (event == FL_SHORTCUT) {
+			printf("Key: '%c' \n",Fl::event_key());
+			switch(Fl::event_key()) {
+				case 'o':
+					this->getFile(1);
+					break;
+					
+				case 's':
+					this->saveBuffer(1);
+					break;
+					
+				case 'w':
+					this->closeBuffer(1);
+					break;
+			}
 		}
 		return 0;
 	}
@@ -107,14 +129,25 @@ void Flute_Window :: initTree(int which) {
 	this->w_tree = new Fl_Tree(offsetX,offsetY,sizeX,sizeY);
 	this->w_tree->showroot(0);
 	
-	this->w_tree->add("/code/file.cc");
-	this->w_tree->add("/code/file.hh");
-	this->w_tree->add("/code/flute/file_x.cc");
+	this->w_tree->add("Untitled");
+}
+
+
+void Flute_Window :: closeBuffer(int which) {
+	this->removeTreePath(which,this->w_editor->getPath());
+}
+
+
+void Flute_Window :: saveBuffer(int which) {
+	const char* path = this->w_editor->getPath();
+	this->w_editor->buffer()->savefile(path);
 }
 
 
 void Flute_Window :: setBuffer(int which, const char* path) {
+	this->w_editor->setPath(path);
 	this->w_editor->buffer()->loadfile(path);
+	this->w_tree->add(path);
 }
 
 

@@ -17,8 +17,13 @@ public:
 	static int kf_tab(int c,Fl_Text_Editor* e);
 	static int kf_shift_tab(int c,Fl_Text_Editor* e);
 	
+	const char* getPath();
+	void setPath(const char* path);
+	
 	Flute_Editor(int x,int y,int w,int h);
 	Flute_Editor(int x,int y,int w,int h,const char* title);
+protected:
+	char* w_path;
 };
 
 #endif // Flute_Editor_HH

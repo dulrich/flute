@@ -23,11 +23,16 @@ public:
 	
 	int handle(int event);
 	int init();
-	void getFile();
+	void getFile(int which);
 	void initEditor(int which);
 	void initTabs(int which);
 	void initTree(int which);
 	
+	void addTreePath(int which,const char* path);
+	void removeTreePath(int which,const char* path);
+	
+	void closeBuffer(int which);
+	void saveBuffer(int which);
 	void setBuffer(int which,const char* path);
 	void setBuffer(int which,Fl_Text_Buffer* buffer);
 	

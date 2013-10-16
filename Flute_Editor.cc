@@ -118,3 +118,14 @@ int Flute_Editor :: kf_shift_tab(int c,Fl_Text_Editor* e) {
 }
 
 
+	const char* Flute_Editor :: getPath() {
+		return "/code/flute/test.txt";
+	};
+	void Flute_Editor :: setPath(const char* path) {
+		
+	};
+	
+	
+	
+
+
