@@ -37,6 +37,7 @@ void Flute_Window :: addTreePath(int which, const char* path) {
 void Flute_Window :: removeTreePath(int which, const char* path) {
 	Fl_Tree_Item* pathItem = this->w_tree->find_item(path);
 	this->w_tree->remove(pathItem);
+	this->w_tree->redraw();
 };
 
 
@@ -134,7 +135,9 @@ void Flute_Window :: initTree(int which) {
 
 
 void Flute_Window :: closeBuffer(int which) {
-	this->removeTreePath(which,this->w_editor->getPath());
+	const char* path = this->w_editor->getPath();
+	
+	this->removeTreePath(which,path);
 }
 
 

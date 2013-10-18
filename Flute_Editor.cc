@@ -2,6 +2,8 @@
 # define FL_DLL
 #endif
 
+#include <string>
+
 #include <FL/Fl.H>
 #include <FL/Fl_Text_Editor.H>
 
@@ -118,14 +120,16 @@ int Flute_Editor :: kf_shift_tab(int c,Fl_Text_Editor* e) {
 }
 
 
-	const char* Flute_Editor :: getPath() {
-		return "/code/flute/test.txt";
-	};
-	void Flute_Editor :: setPath(const char* path) {
-		
-	};
-	
-	
-	
+const char* Flute_Editor :: getPath() {
+	return this->w_path.c_str();
+};
+
+
+void Flute_Editor :: setPath(const char* path) {
+	this->w_path.assign(path);
+};
+
+
+
 
 

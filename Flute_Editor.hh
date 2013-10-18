@@ -2,6 +2,8 @@
 # define FL_DLL
 #endif
 
+#include <string>
+
 #include <FL/Fl.H>
 #include <FL/Fl_Text_Editor.H>
 
@@ -23,7 +25,7 @@ public:
 	Flute_Editor(int x,int y,int w,int h);
 	Flute_Editor(int x,int y,int w,int h,const char* title);
 protected:
-	char* w_path;
+	std::string w_path;
 };
 
 #endif // Flute_Editor_HH
