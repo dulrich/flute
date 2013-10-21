@@ -6,9 +6,9 @@
 class Flute_Config {
 	public:
 		Flute_Config ();
-		Flute_Config (char *path);
+		Flute_Config (const char *path);
 		
-		int getOpt(char *opt);
+		int getOpt(const char *opt);
 };
 
 #endif // Flute_Config_HH

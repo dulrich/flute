@@ -8,6 +8,7 @@
 #include <FL/Fl_Text_Editor.H>
 
 #include <Flute_DEFINES.hh>
+#include <Flute_Buffer.hh>
 
 #ifndef Flute_Editor_HH
 #define Flute_Editor_HH
@@ -19,13 +20,10 @@ public:
 	static int kf_tab(int c,Fl_Text_Editor* e);
 	static int kf_shift_tab(int c,Fl_Text_Editor* e);
 	
-	const char* getPath();
-	void setPath(const char* path);
+	Flute_Buffer* getBuffer();
 	
 	Flute_Editor(int x,int y,int w,int h);
 	Flute_Editor(int x,int y,int w,int h,const char* title);
-protected:
-	std::string w_path;
 };
 
 #endif // Flute_Editor_HH
