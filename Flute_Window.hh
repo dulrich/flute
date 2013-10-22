@@ -11,11 +11,11 @@
 
 class Flute_Window : public Fl_Double_Window {
 public:
-	Flute_Buffer_Manager* bufman;
-	Flute_Config*         xt_config;
+	Flute_Buffer_Manager* m_bufman;
+	Flute_Config*         m_config;
 	
-	Flute_Editor*         w_editor;
-	Flute_Tree*           w_tree;
+	Flute_Editor*         m_editor;
+	Flute_Tree*           m_tree;
 	
 	int handle(int event);
 	int init();

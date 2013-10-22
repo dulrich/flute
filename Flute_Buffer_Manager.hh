@@ -23,7 +23,7 @@ public:
 	int setBuffer(Flute_Buffer* buff);
 
 protected:
-	std::vector<Flute_Buffer*> b_vec;
+	std::vector<Flute_Buffer*> m_vec;
 	
 	int _getFreeID();
 };

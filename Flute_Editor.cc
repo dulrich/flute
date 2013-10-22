@@ -3,19 +3,19 @@
 
 Flute_Editor :: Flute_Editor(int x, int y, int w, int h)
 							 : Fl_Text_Editor(x,y,w,h) {
-	this->add_flute_keybindings();
+	add_flute_keybindings();
 }
 
 
 Flute_Editor :: Flute_Editor(int x, int y, int w, int h, const char* title)
 							 : Fl_Text_Editor(x,y,w,h,title) {
-	this->add_flute_keybindings();
+	add_flute_keybindings();
 }
 
 
 void Flute_Editor :: add_flute_keybindings() {
-	this->add_key_binding(FL_Tab,0,Flute_Editor::kf_tab);
-	this->add_key_binding(FL_Tab,FL_SHIFT,Flute_Editor::kf_shift_tab);
+	add_key_binding(FL_Tab,0,Flute_Editor::kf_tab);
+	add_key_binding(FL_Tab,FL_SHIFT,Flute_Editor::kf_shift_tab);
 }
 
 
@@ -110,7 +110,7 @@ int Flute_Editor :: kf_shift_tab(int c,Fl_Text_Editor* e) {
 }
 
 Flute_Buffer* Flute_Editor :: getBuffer() {
-	return (Flute_Buffer*)this->buffer();
+	return (Flute_Buffer*)buffer();
 }
 
 
