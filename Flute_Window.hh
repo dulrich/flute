@@ -28,6 +28,7 @@ public:
 	void removeTreePath(int which,const char* path);
 	
 	void closeBuffer(int which);
+	Flute_Buffer* getBuffer(int which);
 	void saveBuffer(int which);
 	void setBuffer(int which,const char* path);
 	void setBuffer(int which,Flute_Buffer* buff);

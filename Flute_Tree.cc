@@ -24,15 +24,19 @@ int Flute_Tree :: handle(int event)  {
 		item_pathname(path,sizeof(path),item);
 		printf("TREE PATH: %s\n",path);
 		
-		if (event == FL_RELEASE) {
-			printf("REASON %d\n",callback_reason());
-			switch(callback_reason()) {
-				case FL_TREE_REASON_SELECTED:
-					win->setBuffer(-1,path);
-					used = 1;
-					break;
-			}
+		if (strcmp(path,win->getBuffer(1)->getPath())) {
+			win->setBuffer(-1,path);
 		}
+		
+//		if (event == FL_RELEASE) {
+//			printf("REASON %d\n",callback_reason());
+//			switch(callback_reason()) {
+//				case FL_TREE_REASON_SELECTED:
+//					win->setBuffer(-1,path);
+//					used = 1;
+//					break;
+//			}
+//		}
 	}
 	else {
 		// maybe do something with folders later

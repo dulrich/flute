@@ -1,5 +1,22 @@
+=======================
+FLUTE: Fast Light Ultimate Text Editor
+=======================
 
-"$Id: texteditor-simple.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
+Copyright 2013 David Ulrich
+
+This program is free software. Distribution and use rights are outlined in
+the file "COPYING" which should have been included with this file.  If this
+file is missing or damaged, see the license at:
+
+    http://github.com/dulrich/flute
+
+Please report all bugs and problems on the following page:
+
+    http://github.com/dulrich/flute/issues
+
+====================
+Originally based on Fl_Text_Editor
+====================
 
 	A simple example of Fl_Text_Editor
 
@@ -24,5 +41,3 @@ file is missing or damaged, see the license at:
 Please report all bugs and problems on the following page:
 
     http://www.fltk.org/str.php
-
-Flute is awesome

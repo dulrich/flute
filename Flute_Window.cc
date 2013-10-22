@@ -12,8 +12,11 @@ Flute_Window :: Flute_Window(int w, int h, const char* title,Flute_Config* confi
 
 
 void Flute_Window :: addTreePath(int which, const char* path) {
-	Fl_Tree_Item* newItem = m_tree->add(path);
-	m_tree->set_item_focus(newItem);
+	Fl_Tree_Item* item = m_tree->add(path);
+	m_tree->select_only(item,0);
+	m_tree->set_item_focus(item);
+
+	m_tree->redraw();
 };
 
 
@@ -136,6 +139,11 @@ void Flute_Window :: closeBuffer(int which) {
 }
 
 
+Flute_Buffer* Flute_Window :: getBuffer(int which) {
+	return m_editor->getBuffer();
+}
+
+
 void Flute_Window :: saveBuffer(int which) {
 	const char* path = m_editor->getBuffer()->getPath();
 	m_editor->buffer()->savefile(path);
@@ -152,7 +160,8 @@ void Flute_Window :: setBuffer(int which, const char* path) {
 	Flute_Buffer* buff = m_bufman->getBuffer(buffID);
 	m_editor->buffer(buff);
 	
-	m_tree->add(path);
+	addTreePath(-1,path);
+//	m_tree->add(path);
 }
 
 
@@ -165,6 +174,6 @@ void Flute_Window :: setBuffer(int which, Flute_Buffer* buff) {
 	
 	m_editor->buffer(buff);
 	
-	m_tree->add(buff->getPath());
+	addTreePath(-1,buff->getPath());
 }
 
