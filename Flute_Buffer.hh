@@ -23,10 +23,11 @@ public:
 	void setPath(const char* path);
 	
 protected:
-	int w_id;
-	std::string w_path;
-	
-	void _init(int id,const char* path);
+	int m_id;
+	std::string m_path;
+
+private:
+	void init(int id,const char* path);
 };
 
 #endif // Flute_Buffer_HH

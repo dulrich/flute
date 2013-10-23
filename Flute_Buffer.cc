@@ -1,16 +1,16 @@
 #include <Flute_Buffer.hh>
 
 Flute_Buffer :: Flute_Buffer(int id,const char* path) : Fl_Text_Buffer() {
-	this->_init(id,path);
+	init(id,path);
 }
 
 Flute_Buffer :: Flute_Buffer(int requestedSize,int preferredGapSize,int id,const char* path)
 							 : Fl_Text_Buffer(requestedSize,preferredGapSize) {
-	this->_init(id,path);
+	init(id,path);
 }
 
 
-void Flute_Buffer :: _init(int id,const char* path) {
+void Flute_Buffer :: init(int id,const char* path) {
 	this->loadfile(path);
 	this->setID(id);
 	this->setPath(path);
@@ -19,22 +19,22 @@ void Flute_Buffer :: _init(int id,const char* path) {
 
 
 int Flute_Buffer :: getID() {
-	return this->w_id;
+	return m_id;
 }
 
 
 const char* Flute_Buffer :: getPath() {
-	return this->w_path.c_str();
+	return m_path.c_str();
 };
 
 
 void Flute_Buffer :: setID(int id) {
-	this->w_id = id;
+	m_id = id;
 }
 
 
 void Flute_Buffer :: setPath(const char* path) {
-	this->w_path.assign(path);
+	m_path.assign(path);
 };
 
 

@@ -6,28 +6,31 @@
 
 Flute_Window :: Flute_Window(int w, int h, const char* title,Flute_Config* config)
 							 : Fl_Double_Window(w,h,title) {
-	this->xt_config = config;
-	this->bufman = new Flute_Buffer_Manager(2);
+	m_config = config;
+	m_bufman = new Flute_Buffer_Manager(m_config->getOpt("default_buffer_count"));
 }
 
 
 void Flute_Window :: addTreePath(int which, const char* path) {
-	Fl_Tree_Item* newItem = this->w_tree->add(path);
-	this->w_tree->set_item_focus(newItem);
+	Fl_Tree_Item* item = m_tree->add(path);
+	m_tree->select_only(item,0);
+	m_tree->set_item_focus(item);
+
+	m_tree->redraw();
 };
 
 
 void Flute_Window :: removeTreePath(int which, const char* path) {
-	Fl_Tree_Item* item = this->w_tree->find_item(path);
+	Fl_Tree_Item* item = m_tree->find_item(path);
 	Fl_Tree_Item* parent;
 	
 	while (!item->is_root() && !item->has_children()) {
 		parent = item->parent();
-		this->w_tree->remove(item);
+		m_tree->remove(item);
 		item = parent;
 	}
 	
-	this->w_tree->redraw();
+	m_tree->redraw();
 };
 
 
@@ -49,7 +52,7 @@ void Flute_Window :: getFile(int which) {
 			break;
 		default: // FILE CHOSEN
 			printf("PICKED: %s\n", fnfc.filename());
-			this->setBuffer(which,fnfc.filename());
+			setBuffer(which,fnfc.filename());
 			break;
 	 }
 }
@@ -65,15 +68,15 @@ int Flute_Window :: handle(int event) {
 			printf("Key: '%c' \n",Fl::event_key());
 			switch(Fl::event_key()) {
 				case 'o':
-					this->getFile(1);
+					getFile(1);
 					break;
 					
 				case 's':
-					this->saveBuffer(1);
+					saveBuffer(1);
 					break;
 					
 				case 'w':
-					this->closeBuffer(1);
+					closeBuffer(1);
 					break;
 			}
 		}
@@ -83,12 +86,12 @@ int Flute_Window :: handle(int event) {
 
 
 int Flute_Window :: init() {
-	if (!this->xt_config) {
+	if (!m_config) {
 		return 1;
 	}
 	else {
-		this->initEditor(1);
-		this->initTree(1);
+		initEditor(1);
+		initTree(1);
 	}
 	
 	return 0;
@@ -96,13 +99,13 @@ int Flute_Window :: init() {
 
 
 void Flute_Window :: initEditor(int which) {
-	int offsetX = this->xt_config->getOpt("tree_w");
+	int offsetX = m_config->getOpt("tree_w");
 	int offsetY = 0;
-	int sizeX = this->w() - offsetX;
-	int sizeY = this->h();
+	int sizeX = w() - offsetX;
+	int sizeY = h();
 	
-	this->w_editor = new Flute_Editor(offsetX,offsetY,sizeX,sizeY);
-	this->add_resizable(*(this->w_editor));
+	m_editor = new Flute_Editor(offsetX,offsetY,sizeX,sizeY);
+	add_resizable(*(m_editor));
 }
 
 
@@ -114,57 +117,63 @@ void Flute_Window :: initTabs(int which) {
 void Flute_Window :: initTree(int which) {
 	int offsetX = 0;
 	int offsetY = 0;
-	int sizeX = this->xt_config->getOpt("tree_w");
-	int sizeY = this->h();
+	int sizeX = m_config->getOpt("tree_w");
+	int sizeY = h();
 	
-	this->w_tree = new Flute_Tree(offsetX,offsetY,sizeX,sizeY);
-	this->w_tree->root_label("");
-// 	this->w_tree->showroot(0);
+	m_tree = new Flute_Tree(offsetX,offsetY,sizeX,sizeY);
+	m_tree->root_label("");
+// 	m_tree->showroot(0);
 }
 
 
 void Flute_Window :: closeBuffer(int which) {
-	const char* path = this->w_editor->getBuffer()->getPath();
+	const char* path = m_editor->getBuffer()->getPath();
 	
-	int buffID = this->bufman->getBufferID(path);
+	int buffID = m_bufman->getBufferID(path);
 	
-	if (buffID != -1) this->bufman->closeBuffer(buffID);
+	if (buffID != -1) m_bufman->closeBuffer(buffID);
 	
-	if (this->xt_config->getOpt("file_tree")) {
-		this->removeTreePath(which,path);
+	if (m_config->getOpt("file_tree")) {
+		removeTreePath(which,path);
 	}
+}
+
+
+Flute_Buffer* Flute_Window :: getBuffer(int which) {
+	return m_editor->getBuffer();
 }
 
 
 void Flute_Window :: saveBuffer(int which) {
-	const char* path = this->w_editor->getBuffer()->getPath();
-	this->w_editor->buffer()->savefile(path);
+	const char* path = m_editor->getBuffer()->getPath();
+	m_editor->buffer()->savefile(path);
 }
 
 
 void Flute_Window :: setBuffer(int which, const char* path) {
-	int buffID = this->bufman->getBufferID(path);
+	int buffID = m_bufman->getBufferID(path);
 // 	printf("SETTING BUFFER TO %s (%d)\n",path,buffID);
-// 	this->bufman->printAll();
+//	m_bufman->printAll();
 	if (buffID == -1) {
-		buffID = this->bufman->setBuffer(path);
+		buffID = m_bufman->setBuffer(path);
 	}
-	Flute_Buffer* buff = this->bufman->getBuffer(buffID);
-	this->w_editor->buffer(buff);
+	Flute_Buffer* buff = m_bufman->getBuffer(buffID);
+	m_editor->buffer(buff);
 	
-	this->w_tree->add(path);
+	addTreePath(-1,path);
+//	m_tree->add(path);
 }
 
 
 void Flute_Window :: setBuffer(int which, Flute_Buffer* buff) {
-	int buffID = this->bufman->getBufferID(buff);
+	int buffID = m_bufman->getBufferID(buff);
 	
 	if (buffID == -1) {
-		buffID = this->bufman->setBuffer(buff);
+		buffID = m_bufman->setBuffer(buff);
 	}
 	
-	this->w_editor->buffer(buff);
+	m_editor->buffer(buff);
 	
-	this->w_tree->add(buff->getPath());
+	addTreePath(-1,buff->getPath());
 }
 
