@@ -62,7 +62,7 @@ int Flute_Window :: handle(int event) {
 	if (Fl_Group::handle(event)) return 1;
 	else {
 		
-// 		printf("Event %s\n",fl_eventnames[event]);
+ 		printf("Event %s\n",fl_eventnames[event]);
 		
 		if (event == FL_SHORTCUT) {
 			printf("Key: '%c' \n",Fl::event_key());
@@ -70,13 +70,25 @@ int Flute_Window :: handle(int event) {
 				case 'o':
 					getFile(1);
 					break;
-					
+				
+				case 'q':
+					hide();
+					break;
+				
 				case 's':
 					saveBuffer(1);
 					break;
 					
 				case 'w':
 					closeBuffer(1);
+					break;
+			}
+		}
+		else if (event == FL_KEYBOARD) {
+			printf("Key: '%c' \n",Fl::event_key());
+			switch(Fl::event_key()) {
+				case FL_Escape:
+					return 1;
 					break;
 			}
 		}

@@ -17,6 +17,7 @@ class Flute_Editor : public Fl_Text_Editor {
 public:
 
 	void add_flute_keybindings();
+	void init();
 	static int kf_tab(int c,Fl_Text_Editor* e);
 	static int kf_shift_tab(int c,Fl_Text_Editor* e);
 	

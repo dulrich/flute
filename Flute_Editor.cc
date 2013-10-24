@@ -3,19 +3,26 @@
 
 Flute_Editor :: Flute_Editor(int x, int y, int w, int h)
 							 : Fl_Text_Editor(x,y,w,h) {
-	add_flute_keybindings();
+	init();
 }
 
 
 Flute_Editor :: Flute_Editor(int x, int y, int w, int h, const char* title)
 							 : Fl_Text_Editor(x,y,w,h,title) {
-	add_flute_keybindings();
+	init();
 }
 
 
 void Flute_Editor :: add_flute_keybindings() {
 	add_key_binding(FL_Tab,0,Flute_Editor::kf_tab);
 	add_key_binding(FL_Tab,FL_SHIFT,Flute_Editor::kf_shift_tab);
+}
+
+
+void Flute_Editor :: init() {
+	add_flute_keybindings();
+
+	textfont(FL_COURIER);
 }
 
 
