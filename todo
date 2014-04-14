@@ -1,0 +1,27 @@
+(Todo|Wish)list:
+
+[ ] indent level
+[ ] highlight all instances of selected text
+[ ] "smart" home key (toggles between start of line and end of whitespace)
+[ ] click regex -- arbitrary length list, ex: [a-zA-z0-9]+ [\w-]+ .+\n *
+	alternate: \b\S\b ^.+$ *
+[ ] line #s
+[ ] find/replace -- plain text | regex
+[ ] syntax highlighting
+	- configurable word/boundary matching (hypen,underscore,etc may be word \
+	or symbol characters depending on language)
+	- brace matching -- support complex brace/tags <?php ?> <xml></xml> {{ }}
+[ ] block comment C-d -- language-specific (un)comment selected line/section
+[ ] open buffer stack -- track order of previously viewed buffers. can be \
+	traversed manually, or automatically if current buffer is closed
+[ ] mark changed buffer
+	- visual marking wherever buffer/filename is shown (file tree, title bar)
+[ ] destructors / delete objs -- currently memory is leaked by everything
+
+*** where possible, features should be configurable in a config file, or an \
+	interface which mirrors the file
+*** according to unix philosophy a program should focus on doing one thing \
+	well. for a programming editor that would be programming. other functions \
+	such as window, file, and project management should be left to tools \
+	built for those specific purposes. in an ideal world major chunks such as \
+	syntax highlighting and find/replace would be broken out
