@@ -9,7 +9,6 @@ Flute_Buffer :: Flute_Buffer(int requestedSize,int preferredGapSize,int id,const
 	init(id,path);
 }
 
-
 void Flute_Buffer :: init(int id,const char* path) {
 	this->loadfile(path);
 	this->setID(id);

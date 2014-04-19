@@ -14,6 +14,7 @@ public:
 	
 	void closeBuffer(int buffID);
 	
+	Flute_Buffer* getBuffer(); // get the most recently used buffer
 	Flute_Buffer* getBuffer(int buffID);
 	
 	int getBufferID(const char* path);

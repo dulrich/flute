@@ -1,4 +1,5 @@
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Text_Display.H>
 
 #include <Flute_Buffer_Manager.hh>
 #include <Flute_Config.hh>
@@ -16,12 +17,13 @@ public:
 	
 	Flute_Editor*         m_editor;
 	Flute_Tree*           m_tree;
+	Fl_Text_Display*      m_linenum;
+	Fl_Text_Buffer*       m_linebuf;
 	
 	int handle(int event);
 	int init();
 	void getFile(int which);
 	void initEditor(int which);
-	void initTabs(int which);
 	void initTree(int which);
 	
 	void addTreePath(int which,const char* path);

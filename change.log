@@ -1,0 +1,6 @@
+[2014-04-18]
+* fixed bug where paths were re-added to tree
+* window falls back to untitled buffer on close
+* remove concept of tabs as part of a window
+** file tree is slated to be separated as a distinct window concept
+* placeholder for linenum column

@@ -12,10 +12,16 @@ Flute_Window :: Flute_Window(int w, int h, const char* title,Flute_Config* confi
 
 
 void Flute_Window :: addTreePath(int which, const char* path) {
-	Fl_Tree_Item* item = m_tree->add(path);
+	Fl_Tree_Item* item = m_tree->find_item(path);
+	
+	if (!item) {
+		printf("ADDING TREE PATH %s\n",path);
+		item = m_tree->add(path);
+	}
+	
 	m_tree->select_only(item,0);
 	m_tree->set_item_focus(item);
-
+	
 	m_tree->redraw();
 };
 
@@ -62,10 +68,10 @@ int Flute_Window :: handle(int event) {
 	if (Fl_Group::handle(event)) return 1;
 	else {
 		
- 		printf("Event %s\n",fl_eventnames[event]);
+//  		printf("Event %s\n",fl_eventnames[event]);
 		
 		if (event == FL_SHORTCUT) {
-			printf("Key: '%c' \n",Fl::event_key());
+// 			printf("Key: '%c' \n",Fl::event_key());
 			switch(Fl::event_key()) {
 				case 'o':
 					getFile(1);
@@ -85,7 +91,7 @@ int Flute_Window :: handle(int event) {
 			}
 		}
 		else if (event == FL_KEYBOARD) {
-			printf("Key: '%c' \n",Fl::event_key());
+// 			printf("Key: '%c' \n",Fl::event_key());
 			switch(Fl::event_key()) {
 				case FL_Escape:
 					return 1;
@@ -111,18 +117,36 @@ int Flute_Window :: init() {
 
 
 void Flute_Window :: initEditor(int which) {
-	int offsetX = m_config->getOpt("tree_w");
-	int offsetY = 0;
-	int sizeX = w() - offsetX;
-	int sizeY = h();
+	int usingFileTree = m_config->getOpt("file_tree");
+	int treeWidth = usingFileTree
+		? m_config->getOpt("tree_w")
+		: 0;
 	
-	m_editor = new Flute_Editor(offsetX,offsetY,sizeX,sizeY);
+	int usingLineNums = m_config->getOpt("line_nums");
+	int sizeXLn = 30;
+	int sizeYLn = h();
+	int lineNumWidth = usingLineNums
+		? sizeXLn
+		: 0;
+	
+	int offsetXLn = treeWidth;
+	int offsetYLn = 0;
+	
+	int offsetXEd = treeWidth + lineNumWidth;
+	int offsetYEd = 0;
+	
+	int sizeXEd = w() - offsetXEd;
+	int sizeYEd = h();
+	
+	if (usingLineNums) {
+		m_linenum = new Fl_Text_Display(offsetXLn,offsetYLn,sizeXLn,sizeYLn);
+		m_linenum->textfont(FL_COURIER);
+		m_linebuf = new Fl_Text_Buffer(1024);
+		m_linebuf->text(" 1\n10\n ~");
+		m_linenum->buffer(m_linebuf);
+	}
+	m_editor  = new Flute_Editor(offsetXEd,offsetYEd,sizeXEd,sizeYEd);
 	add_resizable(*(m_editor));
-}
-
-
-void Flute_Window :: initTabs(int which) {
-	
 }
 
 
@@ -148,6 +172,10 @@ void Flute_Window :: closeBuffer(int which) {
 	if (m_config->getOpt("file_tree")) {
 		removeTreePath(which,path);
 	}
+	
+	const char *newPath = m_bufman->getBuffer()->getPath();
+	
+	setBuffer(which,newPath);
 }
 
 

@@ -10,7 +10,7 @@ Flute_Tree :: Flute_Tree(int x,int y,int w,int h) : Fl_Tree(x,y,w,h) {
 
 int Flute_Tree :: handle(int event)  {
 // 	printf("HIT TREE CALLBACK (%d)\n",event);
-	printf("Event %s\n",fl_eventnames[event]);
+// 	printf("Event %s\n",fl_eventnames[event]);
 	
 	int used = Fl_Tree::handle(event);
 	
@@ -22,7 +22,7 @@ int Flute_Tree :: handle(int event)  {
 		Flute_Window* win = (Flute_Window*)parent();
 		
 		item_pathname(path,sizeof(path),item);
-		printf("TREE PATH: %s\n",path);
+// 		printf("TREE PATH: %s\n",path);
 		
 		if (strcmp(path,win->getBuffer(1)->getPath())) {
 			win->setBuffer(-1,path);
@@ -40,6 +40,7 @@ int Flute_Tree :: handle(int event)  {
 	}
 	else {
 		// maybe do something with folders later
+		// like showing details or file picker in window
 	}
 	
 	return used;

@@ -13,6 +13,12 @@ void Flute_Buffer_Manager :: closeBuffer(int buffID) {
 }
 
 
+Flute_Buffer* Flute_Buffer_Manager :: getBuffer() {
+	// broken stub until buffer stack is implemented for history
+	return m_vec[0];
+}
+
+
 Flute_Buffer* Flute_Buffer_Manager :: getBuffer(int buffID) {
 	return m_vec[buffID];
 }
