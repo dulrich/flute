@@ -17,6 +17,9 @@
 [ ] mark changed buffer
 	- visual marking wherever buffer/filename is shown (file tree, title bar)
 [ ] destructors / delete objs -- currently memory is leaked by everything
+[ ] persist list of open buffers
+	- rebuild tree on load with previously open buffers
+	- lazy loading after restart
 
 *** where possible, features should be configurable in a config file, or an \
 	interface which mirrors the file

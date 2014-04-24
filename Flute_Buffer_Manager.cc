@@ -5,21 +5,36 @@
 
 Flute_Buffer_Manager :: Flute_Buffer_Manager(int len) : m_vec(len) {
 // 	printf("length:%d\n",this->b_vec.size());
+// 	printf("history length: %d\n",m_history.size());
 }
 
 
 void Flute_Buffer_Manager :: closeBuffer(int buffID) {
 	m_vec[buffID] = NULL;
+	
+	m_history.remove(buffID);
 }
 
 
 Flute_Buffer* Flute_Buffer_Manager :: getBuffer() {
 	// broken stub until buffer stack is implemented for history
-	return m_vec[0];
+	return m_history.empty()
+		? m_vec[0]
+		: m_vec[m_history.back()];
 }
 
 
 Flute_Buffer* Flute_Buffer_Manager :: getBuffer(int buffID) {
+	_setLastBuffer(buffID);
+	
+	return m_vec[buffID];
+}
+
+Flute_Buffer* Flute_Buffer_Manager :: getBuffer(const char* path) {
+	int buffID = getBufferID(path);
+	
+	_setLastBuffer(buffID);
+	
 	return m_vec[buffID];
 }
 
@@ -125,3 +140,7 @@ int Flute_Buffer_Manager :: _getFreeID() {
 }
 
 
+void Flute_Buffer_Manager :: _setLastBuffer(int buffID) {
+	m_history.remove(buffID);
+	m_history.push_back(buffID);
+}
