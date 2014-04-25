@@ -1,3 +1,10 @@
+[2014-04-25]
+* ctrl+p shortcut to swap to previously selected buffer
+* update shortcut list in README
+
+[2014-04-24]
+* buffer stack switches to previous buffer on close
+
 [2014-04-18]
 * fixed bug where paths were re-added to tree
 * window falls back to untitled buffer on close

@@ -34,6 +34,7 @@ public:
 	void saveBuffer(int which);
 	void setBuffer(int which,const char* path);
 	void setBuffer(int which,Flute_Buffer* buff);
+	void setPrevBuffer(int which);
 	
 	Flute_Window(int w,int h,const char* title,Flute_Config* config);
 };

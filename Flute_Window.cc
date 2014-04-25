@@ -77,6 +77,10 @@ int Flute_Window :: handle(int event) {
 					getFile(1);
 					break;
 				
+				case 'p':
+					setPrevBuffer(1);
+					break;
+				
 				case 'q':
 					hide();
 					break;
@@ -173,7 +177,7 @@ void Flute_Window :: closeBuffer(int which) {
 		removeTreePath(which,path);
 	}
 	
-	const char *newPath = m_bufman->getBuffer()->getPath();
+	const char *newPath = m_bufman->getLastBuffer()->getPath();
 	
 	setBuffer(which,newPath);
 }
@@ -217,3 +221,9 @@ void Flute_Window :: setBuffer(int which, Flute_Buffer* buff) {
 	addTreePath(-1,buff->getPath());
 }
 
+
+void Flute_Window :: setPrevBuffer(int which) {
+	const char *newPath = m_bufman->getLastBuffer(1)->getPath();
+	
+	setBuffer(which,newPath);
+}

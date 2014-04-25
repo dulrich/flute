@@ -16,11 +16,24 @@ void Flute_Buffer_Manager :: closeBuffer(int buffID) {
 }
 
 
-Flute_Buffer* Flute_Buffer_Manager :: getBuffer() {
-	// broken stub until buffer stack is implemented for history
-	return m_history.empty()
-		? m_vec[0]
-		: m_vec[m_history.back()];
+Flute_Buffer* Flute_Buffer_Manager :: getLastBuffer() {
+	return getLastBuffer(0);
+}
+
+
+// get the buffer `back` elements from the end, or the nearest to that position
+// depending on the length of the buffer history
+Flute_Buffer* Flute_Buffer_Manager :: getLastBuffer(int from_back) {
+	if (m_history.empty()) return m_vec[0];
+	
+	// oh no, reverse iterator alert
+	int i = 0;
+	std::list<int>::reverse_iterator rit=m_history.rbegin();
+	while(i < from_back && rit != m_history.rend()) {
+		i++;
+		rit++;
+	}
+	return m_vec[*rit];
 }
 
 
