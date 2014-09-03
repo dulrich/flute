@@ -195,6 +195,8 @@ void Flute_Window :: saveBuffer(int which) {
 
 
 void Flute_Window :: setBuffer(int which, const char* path) {
+	if (path == NULL) return;
+	
 	int buffID = m_bufman->getBufferID(path);
 // 	printf("SETTING BUFFER TO %s (%d)\n",path,buffID);
 //	m_bufman->printAll();
@@ -224,8 +226,6 @@ void Flute_Window :: setBuffer(int which, Flute_Buffer* buff) {
 
 void Flute_Window :: setPrevBuffer(int which) {
 	const char *newPath = m_bufman->getLastBuffer(1)->getPath();
-	
-	if (newPath == NULL) return;
 	
 	setBuffer(which,newPath);
 }
