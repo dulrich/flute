@@ -225,5 +225,7 @@ void Flute_Window :: setBuffer(int which, Flute_Buffer* buff) {
 void Flute_Window :: setPrevBuffer(int which) {
 	const char *newPath = m_bufman->getLastBuffer(1)->getPath();
 	
+	if (newPath == NULL) return;
+	
 	setBuffer(which,newPath);
 }
