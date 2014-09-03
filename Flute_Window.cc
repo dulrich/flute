@@ -73,12 +73,12 @@ int Flute_Window :: handle(int event) {
 		if (event == FL_SHORTCUT) {
 // 			printf("Key: '%c' \n",Fl::event_key());
 			switch(Fl::event_key()) {
-				case 'o':
-					getFile(1);
+				case 'b':
+					setPrevBuffer(1);
 					break;
 				
-				case 'p':
-					setPrevBuffer(1);
+				case 'o':
+					getFile(1);
 					break;
 				
 				case 'q':
