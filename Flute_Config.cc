@@ -11,6 +11,13 @@ Flute_Config :: Flute_Config() {
 
 Flute_Config :: Flute_Config(const char* path) {
 	// nothing
+	lua_State* L;
+	L = luaL_newstate();
+	luaL_openlibs(L);
+	
+	luaL_dofile(L,path);
+	
+	lua_close(L);
 }
 
 int Flute_Config :: getOpt(const char *opt) {

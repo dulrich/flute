@@ -1,6 +1,7 @@
 CXX		= $(shell fltk-config --cxx )
 DEBUG		= -g
 CXXFLAGS	= $(shell fltk-config --use-gl --use-images --cxxflags ) -I.
+LUAFLAGS	= $(shell pkg-config --cflags --libs lua5.2 )
 LDFLAGS		= $(shell fltk-config --use-gl --use-images --ldflags )
 LDSTATIC	= $(shell fltk-config --use-gl --use-images --ldstaticflags )
 LINK		= $(CXX)
@@ -16,7 +17,7 @@ SRCS = main.cc Flute_Config.cc Flute_Window.cc Flute_Editor.cc Flute_Buffer.cc F
 	$(CXX) --std=c++0x $(CXXFLAGS) $(DEBUG) -c $<
 	
 all: $(TARGET)
-	$(LINK) -o $(TARGET) $(OBJS) $(LDSTATIC)
+	$(LINK) -o $(TARGET) $(OBJS) $(LDSTATIC) $(LUAFLAGS)
 	
 $(TARGET): $(OBJS)
 Flute_Config.o: Flute_Config.cc Flute_Config.hh

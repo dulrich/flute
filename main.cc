@@ -23,7 +23,7 @@ Flute_Config*         config;
 Flute_Window*         window;
 
 int main(int argc, char* argv[]) {
-	config = new Flute_Config();
+	config = new Flute_Config("config.lua");
 	
 	buffer = new Flute_Buffer(-1,"~/Untitled");
 	buffer->text("one\ntwo\nthree");
