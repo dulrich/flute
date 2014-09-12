@@ -15,10 +15,10 @@ OBJS = $(SRCS:%.cc=%.o)
 
 %.o: %.cc
 	$(CXX) --std=c++0x $(CXXFLAGS) $(DEBUG) -c $<
-	
+
 all: $(TARGET)
 	$(LINK) -o $(TARGET) $(OBJS) $(LDSTATIC) $(LUAFLAGS)
-	
+
 $(TARGET): $(OBJS)
 
 clean:
