@@ -1,1 +1,0 @@
-io.write("===== config.lua loaded =====")
