@@ -1,3 +1,7 @@
+[2014-09-14]
+* settings are now loaded from the settings table in config/config.lua
+* project has been restructured to output objects in a separate directory
+
 [2014-04-25]
 * ctrl+p shortcut to swap to previously selected buffer
 * update shortcut list in README
