@@ -75,7 +75,7 @@ int Flute_Buffer_Manager :: getBufferID(Flute_Buffer* buff) {
 	len = m_vec.capacity();
 	
 	for(i=0;i<len;i++) {
-		if (m_vec[i] == buff) break;
+		if (m_vec[i] == buff) id = i;
 	}
 	
 	return id;
