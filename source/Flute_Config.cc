@@ -38,6 +38,15 @@ Flute_Config :: Flute_Config(const char* path) {
 }
 
 int Flute_Config :: getOpt(const char *opt) {
+	int id = getOptID(opt);
+	
+	if (id == -1) return 0;
+	
+	return m_settings[id]->m_val;
+}
+
+
+int Flute_Config :: getOptID(const char *opt) {
 	int i,id,len;
 	
 	id = -1;
@@ -47,9 +56,7 @@ int Flute_Config :: getOpt(const char *opt) {
 		if (!m_settings[i]->m_name.compare(opt)) id = i;
 	}
 	
-	if (id == -1) return 0;
-	
-	return m_settings[id]->m_val;
+	return id;
 }
 
 

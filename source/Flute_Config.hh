@@ -32,6 +32,7 @@ class Flute_Config {
 		Flute_Config ();
 		Flute_Config (const char *path);
 		
+		int getOptID(const char *opt);
 		int getOpt(const char *opt);
 		void printAll();
 
