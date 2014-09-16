@@ -26,6 +26,38 @@ void Flute_Editor :: init() {
 }
 
 
+void Flute_Editor :: clear_line(int leading_space, int newline) {
+	Fl_Text_Buffer* b = this->buffer();
+	int pos_start,pos_end,pos_insert;
+	b->selection_position(&pos_start,&pos_end);
+	pos_insert = insert_position();
+
+	if (pos_start <= 0 || pos_end <= 0) {
+		pos_start = pos_insert;
+		pos_end   = pos_insert;
+	}
+	
+	int startLine = b->line_start(pos_start);
+	int endLine   = b->line_end(pos_end);
+	int length    = b->length();
+	
+	if (newline && endLine == length) startLine--;
+	else if (newline) endLine++;
+	
+	int character = b->char_at(startLine);
+	
+	if (!leading_space) {
+		while(character == '\t' || character == ' ') {
+			pos_insert = startLine;
+			startLine = b->next_char(pos_insert);
+			character = b->char_at(startLine);
+		}
+	}
+	
+	b->remove(startLine,endLine);
+}
+
+
 int Flute_Editor :: kf_tab(int c,Fl_Text_Editor* e) {
 	const char* tab = "\t\0";
 	Fl_Text_Buffer* b = e->buffer();
@@ -119,5 +151,3 @@ int Flute_Editor :: kf_shift_tab(int c,Fl_Text_Editor* e) {
 Flute_Buffer* Flute_Editor :: getBuffer() {
 	return (Flute_Buffer*)buffer();
 }
-
-

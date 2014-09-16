@@ -7,7 +7,7 @@
 	alternate: \b\S\b ^.+$ *
 [ ] line #s
 [ ] find/replace -- plain text | regex
-[ ] delete line, clear line
+[X] delete line, clear line
 [ ] syntax highlighting
 	- configurable word/boundary matching (hypen,underscore,etc may be word \
 	or symbol characters depending on language)

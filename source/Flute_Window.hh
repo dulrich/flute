@@ -30,6 +30,7 @@ public:
 	void removeTreePath(int which,const char* path);
 	
 	void closeBuffer(int which);
+	void clearLine(int leading_space, int newline);
 	Flute_Buffer* getBuffer(int which);
 	void saveBuffer(int which);
 	void setBuffer(int which,const char* path);

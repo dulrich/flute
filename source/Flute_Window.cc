@@ -77,6 +77,14 @@ int Flute_Window :: handle(int event) {
 					setPrevBuffer(1);
 					break;
 				
+				case 'k':
+					clearLine(1,1);
+					break;
+				
+				case 'l':
+					clearLine(0,0);
+					break;
+				
 				case 'o':
 					getFile(1);
 					break;
@@ -180,6 +188,11 @@ void Flute_Window :: closeBuffer(int which) {
 	const char *newPath = m_bufman->getLastBuffer()->getPath();
 	
 	setBuffer(which,newPath);
+}
+
+
+void Flute_Window :: clearLine(int leading_space, int newline) {
+	m_editor->clear_line(leading_space,newline);
 }
 
 
