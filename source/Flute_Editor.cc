@@ -14,6 +14,7 @@ Flute_Editor :: Flute_Editor(int x, int y, int w, int h, const char* title)
 
 
 void Flute_Editor :: add_flute_keybindings() {
+	add_key_binding(FL_Home,0,Flute_Editor::kf_home);
 	add_key_binding(FL_Tab,0,Flute_Editor::kf_tab);
 	add_key_binding(FL_Tab,FL_SHIFT,Flute_Editor::kf_shift_tab);
 }
@@ -55,6 +56,46 @@ void Flute_Editor :: clear_line(int leading_space, int newline) {
 	}
 	
 	b->remove(startLine,endLine);
+}
+
+
+int Flute_Editor :: kf_home(int c,Fl_Text_Editor* e) {
+	Fl_Text_Buffer* b = e->buffer();
+	int pos_start,pos_end,pos_insert,pos_space,pos_swap;
+	
+	b->selection_position(&pos_start,&pos_end);
+	pos_insert = e->insert_position();
+
+	if (b->selected()) {
+		b->unselect();
+		pos_insert = pos_start < pos_end ? pos_start : pos_end;
+	}
+
+	int startLine = b->line_start(pos_insert);
+	int character = b->char_at(startLine);
+	pos_space = startLine;
+	
+	while(character == '\t' || character == ' ') {
+		pos_swap = pos_space;
+		pos_space = b->next_char(pos_swap);
+		character = b->char_at(pos_space);
+	}
+
+	int pos_new = (pos_insert == pos_space)
+		? startLine
+		: pos_space;
+
+	e->insert_position(pos_new);
+
+	e->show_insert_position();
+	e->set_changed();
+	if (e->when()&FL_WHEN_CHANGED) e->do_callback();
+	return 1;
+}
+
+
+int Flute_Editor :: kf_shift_home(int c,Fl_Text_Editor* e) {
+	return 0;
 }
 
 

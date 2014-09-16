@@ -19,6 +19,8 @@ public:
 	void add_flute_keybindings();
 	void init();
 	void clear_line(int leading_space, int newline);
+	static int kf_home(int c,Fl_Text_Editor* e);
+	static int kf_shift_home(int c,Fl_Text_Editor* e);
 	static int kf_tab(int c,Fl_Text_Editor* e);
 	static int kf_shift_tab(int c,Fl_Text_Editor* e);
 	
