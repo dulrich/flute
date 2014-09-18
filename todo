@@ -1,8 +1,8 @@
 (Todo|Wish)list:
 
-[+] indent level
+[ ] auto-indent level on enter
 [ ] highlight all instances of selected text
-[ ] "smart" home key (toggles between start of line and end of whitespace)
+[X] "smart" home key (toggles between start of line and end of whitespace)
 [ ] click regex -- arbitrary length list, ex: [a-zA-z0-9]+ [\w-]+ .+\n *
 	alternate: \b\S\b ^.+$ *
 [ ] line #s
@@ -21,6 +21,9 @@
 [ ] persist list of open buffers
 	- rebuild tree on load with previously open buffers
 	- lazy loading after restart
+[ ] load shorcuts from config.lua shorcuts = {...}
+[ ] show whitespace (tab, space)
+[ ] "re-indent"
 
 *** where possible, features should be configurable in a config file, or an \
 	interface which mirrors the file
