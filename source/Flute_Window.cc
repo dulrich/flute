@@ -201,7 +201,7 @@ Flute_Buffer* Flute_Window :: getBuffer(int which) {
 }
 
 
-void on_buffer_modified(int pos, int nInserted, int nDeleted, int nRestyled, const char* deletedText, void* cbArg) {
+void Flute_Window :: on_buffer_modified(int pos, int nInserted, int nDeleted, int nRestyled, const char* deletedText, void* cbArg) {
 	Flute_Window* w = (Flute_Window*)cbArg;
 	const char* path = w->m_editor->getBuffer()->getPath();
 
@@ -231,7 +231,7 @@ void Flute_Window :: setBuffer(int which, const char* path) {
 	Flute_Buffer* buff = m_bufman->getBuffer(buffID);
 
 	if (!buff->m_modify_callback_set) {
-		buff->add_modify_callback(&on_buffer_modified,this);
+		buff->add_modify_callback(Flute_Window::on_buffer_modified,this);
 		buff->m_modify_callback_set = true;
 	}
 	m_editor->buffer(buff);
@@ -249,7 +249,7 @@ void Flute_Window :: setBuffer(int which, Flute_Buffer* buff) {
 	}
 
 	if (!buff->m_modify_callback_set) {
-		buff->add_modify_callback(&on_buffer_modified,this);
+		buff->add_modify_callback(Flute_Window::on_buffer_modified,this);
 		buff->m_modify_callback_set = true;
 	}
 	m_editor->buffer(buff);

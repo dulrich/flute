@@ -32,6 +32,7 @@ public:
 	void closeBuffer(int which);
 	void clearLine(int leading_space, int newline);
 	Flute_Buffer* getBuffer(int which);
+	static void on_buffer_modified(int pos, int nInserted, int nDeleted, int nRestyled, const char* deletedText, void* cbArg);
 	void saveBuffer(int which);
 	void setBuffer(int which,const char* path);
 	void setBuffer(int which,Flute_Buffer* buff);
