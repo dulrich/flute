@@ -14,8 +14,11 @@ Flute_Editor :: Flute_Editor(int x, int y, int w, int h, const char* title)
 
 
 void Flute_Editor :: add_flute_keybindings() {
+	add_key_binding(FL_Enter,0,Flute_Editor::kf_enter);
+
 	add_key_binding(FL_Home,0,Flute_Editor::kf_home);
 	add_key_binding(FL_Home,FL_SHIFT,Flute_Editor::kf_shift_home);
+
 	add_key_binding(FL_Tab,0,Flute_Editor::kf_tab);
 	add_key_binding(FL_Tab,FL_SHIFT,Flute_Editor::kf_shift_tab);
 }
@@ -57,6 +60,58 @@ void Flute_Editor :: clear_line(int leading_space, int newline) {
 	}
 	
 	b->remove(startLine,endLine);
+}
+
+
+int Flute_Editor :: kf_enter(int c,Fl_Text_Editor* e) {
+	Fl_Text_Buffer* b = e->buffer();
+	bool selection = false;
+	int pos_insert,pos_start,pos_end;
+
+	const char* newline = "\n";
+	char* line_text;
+	int line_len,i;
+
+	if (b->selected()) {
+		selection = true;
+		b->selection_position(&pos_start,&pos_end);
+		pos_insert = pos_start < pos_end ? pos_start : pos_end;
+	}
+	else {
+		pos_insert = e->insert_position();
+	}
+
+	pos_start = b->line_start(pos_insert);
+	pos_end   = b->line_end(pos_insert);
+
+	line_text = b->line_text(pos_insert);
+	line_len = strlen(line_text);
+
+	for(i=0;i<line_len;i++) {
+		if (line_text[i] != '\t' && line_text[i] != ' ') {
+			i--;
+			break;
+		}
+	}
+
+	line_text[i+1] = '\0';
+
+	b->insert(pos_insert,newline);
+	pos_insert += strlen(newline);
+
+	if (selection) {
+		b->replace_selection(line_text);
+	}
+	else {
+		b->insert(pos_insert,line_text);
+	}
+
+	e->insert_position(pos_insert+i+1);
+
+	e->show_insert_position();
+	e->set_changed();
+	if (e->when()&FL_WHEN_CHANGED) e->do_callback();
+	return 1;
 }
 
 

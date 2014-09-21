@@ -1,6 +1,6 @@
 (Todo|Wish)list:
 
-[ ] auto-indent level on enter
+[X] auto-indent level on enter
 [ ] highlight all instances of selected text
 [X] "smart" home key (toggles between start of line and end of whitespace)
 [ ] click regex -- arbitrary length list, ex: [a-zA-z0-9]+ [\w-]+ .+\n *
