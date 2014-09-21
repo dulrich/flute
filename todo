@@ -15,7 +15,7 @@
 [ ] block comment C-d -- language-specific (un)comment selected line/section
 [X] open buffer stack -- track order of previously viewed buffers. can be \
 	traversed manually, or automatically if current buffer is closed
-[ ] mark changed buffer
+[X] mark changed buffer
 	- visual marking wherever buffer/filename is shown (file tree, title bar)
 [ ] destructors / delete objs -- currently memory is leaked by everything
 [ ] persist list of open buffers

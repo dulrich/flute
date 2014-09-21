@@ -1,3 +1,6 @@
+[2014-09-20]
+* changed buffers marked with italics in open file tree
+
 [2014-09-17]
 * home and shift-Home are now "smart" about leading whitespace
 

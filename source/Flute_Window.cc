@@ -201,15 +201,27 @@ Flute_Buffer* Flute_Window :: getBuffer(int which) {
 }
 
 
+void on_buffer_modified(int pos, int nInserted, int nDeleted, int nRestyled, const char* deletedText, void* cbArg) {
+	Flute_Window* w = (Flute_Window*)cbArg;
+	const char* path = w->m_editor->getBuffer()->getPath();
+
+	w->m_tree->find_item(path)->labelfont(FL_COURIER | FL_ITALIC);
+	w->m_tree->redraw();
+}
+
+
 void Flute_Window :: saveBuffer(int which) {
 	const char* path = m_editor->getBuffer()->getPath();
 	m_editor->buffer()->savefile(path);
+
+	m_tree->find_item(path)->labelfont(FL_COURIER);
+	m_tree->redraw();
 }
 
 
 void Flute_Window :: setBuffer(int which, const char* path) {
 	if (path == NULL) return;
-	
+
 	int buffID = m_bufman->getBufferID(path);
 // 	printf("SETTING BUFFER TO %s (%d)\n",path,buffID);
 //	m_bufman->printAll();
@@ -217,8 +229,13 @@ void Flute_Window :: setBuffer(int which, const char* path) {
 		buffID = m_bufman->setBuffer(path);
 	}
 	Flute_Buffer* buff = m_bufman->getBuffer(buffID);
+
+	if (!buff->m_modify_callback_set) {
+		buff->add_modify_callback(&on_buffer_modified,this);
+		buff->m_modify_callback_set = true;
+	}
 	m_editor->buffer(buff);
-	
+
 	addTreePath(-1,path);
 //	m_tree->add(path);
 }
@@ -226,19 +243,23 @@ void Flute_Window :: setBuffer(int which, const char* path) {
 
 void Flute_Window :: setBuffer(int which, Flute_Buffer* buff) {
 	int buffID = m_bufman->getBufferID(buff);
-	
+
 	if (buffID == -1) {
 		buffID = m_bufman->setBuffer(buff);
 	}
-	
+
+	if (!buff->m_modify_callback_set) {
+		buff->add_modify_callback(&on_buffer_modified,this);
+		buff->m_modify_callback_set = true;
+	}
 	m_editor->buffer(buff);
-	
+
 	addTreePath(-1,buff->getPath());
 }
 
 
 void Flute_Window :: setPrevBuffer(int which) {
 	const char *newPath = m_bufman->getLastBuffer(1)->getPath();
-	
+
 	setBuffer(which,newPath);
 }

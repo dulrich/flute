@@ -22,6 +22,7 @@ public:
 	void setID(int id);
 	void setPath(const char* path);
 	
+	bool m_modify_callback_set;
 protected:
 	int m_id;
 	std::string m_path;

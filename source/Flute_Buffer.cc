@@ -14,6 +14,7 @@ void Flute_Buffer :: init(int id,const char* path) {
 	this->setID(id);
 	this->setPath(path);
 	this->tab_distance(4);
+	this->m_modify_callback_set = false;
 }
 
 
