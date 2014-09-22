@@ -105,6 +105,7 @@ int Flute_Editor :: kf_enter(int c,Fl_Text_Editor* e) {
 	else {
 		b->insert(pos_insert,line_text);
 	}
+	free(line_text);
 
 	e->insert_position(pos_insert+i+1);
 
