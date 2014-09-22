@@ -13,7 +13,7 @@
 class Flute_Tree : public Fl_Tree {
 public:
 	Flute_Tree(int x,int y,int w,int h);
-	
+
 	int handle(int e);
 };
 

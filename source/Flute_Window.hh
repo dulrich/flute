@@ -14,21 +14,21 @@ class Flute_Window : public Fl_Double_Window {
 public:
 	Flute_Buffer_Manager* m_bufman;
 	Flute_Config*         m_config;
-	
+
 	Flute_Editor*         m_editor;
 	Flute_Tree*           m_tree;
 	Fl_Text_Display*      m_linenum;
 	Fl_Text_Buffer*       m_linebuf;
-	
+
 	int handle(int event);
 	int init();
 	void getFile(int which);
 	void initEditor(int which);
 	void initTree(int which);
-	
+
 	void addTreePath(int which,const char* path);
 	void removeTreePath(int which,const char* path);
-	
+
 	void closeBuffer(int which);
 	void clearLine(int leading_space, int newline);
 	Flute_Buffer* getBuffer(int which);
@@ -37,7 +37,7 @@ public:
 	void setBuffer(int which,const char* path);
 	void setBuffer(int which,Flute_Buffer* buff);
 	void setPrevBuffer(int which);
-	
+
 	Flute_Window(int w,int h,const char* title,Flute_Config* config);
 };
 

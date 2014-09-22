@@ -24,9 +24,9 @@ public:
 	static int kf_shift_home(int c,Fl_Text_Editor* e);
 	static int kf_tab(int c,Fl_Text_Editor* e);
 	static int kf_shift_tab(int c,Fl_Text_Editor* e);
-	
+
 	Flute_Buffer* getBuffer();
-	
+
 	Flute_Editor(int x,int y,int w,int h);
 	Flute_Editor(int x,int y,int w,int h,const char* title);
 };

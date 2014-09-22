@@ -13,15 +13,15 @@ Flute_Window :: Flute_Window(int w, int h, const char* title,Flute_Config* confi
 
 void Flute_Window :: addTreePath(int which, const char* path) {
 	Fl_Tree_Item* item = m_tree->find_item(path);
-	
+
 	if (!item) {
 		printf("ADDING TREE PATH %s\n",path);
 		item = m_tree->add(path);
 	}
-	
+
 	m_tree->select_only(item,0);
 	m_tree->set_item_focus(item);
-	
+
 	m_tree->redraw();
 };
 
@@ -29,13 +29,13 @@ void Flute_Window :: addTreePath(int which, const char* path) {
 void Flute_Window :: removeTreePath(int which, const char* path) {
 	Fl_Tree_Item* item = m_tree->find_item(path);
 	Fl_Tree_Item* parent;
-	
+
 	while (!item->is_root() && !item->has_children()) {
 		parent = item->parent();
 		m_tree->remove(item);
 		item = parent;
 	}
-	
+
 	m_tree->redraw();
 };
 
@@ -67,36 +67,36 @@ void Flute_Window :: getFile(int which) {
 int Flute_Window :: handle(int event) {
 	if (Fl_Group::handle(event)) return 1;
 	else {
-		
+
 //  		printf("Event %s\n",fl_eventnames[event]);
-		
+
 		if (event == FL_SHORTCUT) {
 // 			printf("Key: '%c' \n",Fl::event_key());
 			switch(Fl::event_key()) {
 				case 'b':
 					setPrevBuffer(1);
 					break;
-				
+
 				case 'k':
 					clearLine(1,1);
 					break;
-				
+
 				case 'l':
 					clearLine(0,0);
 					break;
-				
+
 				case 'o':
 					getFile(1);
 					break;
-				
+
 				case 'q':
 					hide();
 					break;
-				
+
 				case 's':
 					saveBuffer(1);
 					break;
-					
+
 				case 'w':
 					closeBuffer(1);
 					break;
@@ -123,7 +123,7 @@ int Flute_Window :: init() {
 		initEditor(1);
 		initTree(1);
 	}
-	
+
 	return 0;
 }
 
@@ -133,23 +133,23 @@ void Flute_Window :: initEditor(int which) {
 	int treeWidth = usingFileTree
 		? m_config->getOpt("tree_w")
 		: 0;
-	
+
 	int usingLineNums = m_config->getOpt("line_nums");
 	int sizeXLn = 30;
 	int sizeYLn = h();
 	int lineNumWidth = usingLineNums
 		? sizeXLn
 		: 0;
-	
+
 	int offsetXLn = treeWidth;
 	int offsetYLn = 0;
-	
+
 	int offsetXEd = treeWidth + lineNumWidth;
 	int offsetYEd = 0;
-	
+
 	int sizeXEd = w() - offsetXEd;
 	int sizeYEd = h();
-	
+
 	if (usingLineNums) {
 		m_linenum = new Fl_Text_Display(offsetXLn,offsetYLn,sizeXLn,sizeYLn);
 		m_linenum->textfont(FL_COURIER);
@@ -167,7 +167,7 @@ void Flute_Window :: initTree(int which) {
 	int offsetY = 0;
 	int sizeX = m_config->getOpt("tree_w");
 	int sizeY = h();
-	
+
 	m_tree = new Flute_Tree(offsetX,offsetY,sizeX,sizeY);
 	m_tree->root_label("");
 // 	m_tree->showroot(0);
@@ -176,17 +176,17 @@ void Flute_Window :: initTree(int which) {
 
 void Flute_Window :: closeBuffer(int which) {
 	const char* path = m_editor->getBuffer()->getPath();
-	
+
 	int buffID = m_bufman->getBufferID(path);
-	
+
 	if (buffID != -1) m_bufman->closeBuffer(buffID);
-	
+
 	if (m_config->getOpt("file_tree")) {
 		removeTreePath(which,path);
 	}
-	
+
 	const char *newPath = m_bufman->getLastBuffer()->getPath();
-	
+
 	setBuffer(which,newPath);
 }
 

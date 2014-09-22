@@ -23,15 +23,15 @@ class Flute_Config {
 				m_name.assign(name);
 				m_val = val;
 			};
-			
+
 			std::string m_name;
 			int m_val;
 	};
-	
+
 	public:
 		Flute_Config ();
 		Flute_Config (const char *path);
-		
+
 		int getOptID(const char *opt);
 		int getOpt(const char *opt);
 		void printAll();
