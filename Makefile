@@ -1,10 +1,12 @@
 SRC_DIR = source
 OBJ_DIR = object
+LUA_LIB = lua5.2
 
 CXX		= $(shell fltk-config --cxx )
 DEBUG		= -g
 CXXFLAGS	= $(shell fltk-config --use-gl --use-images --cxxflags ) -I./$(SRC_DIR)
-LUAFLAGS	= $(shell pkg-config --cflags --libs lua5.2 )
+LUACFLAGS	= $(shell pkg-config --cflags $(LUA_LIB) )
+LUALFLAGS	= $(shell pkg-config --libs $(LUA_LIB) )
 LDFLAGS		= $(shell fltk-config --use-gl --use-images --ldflags ) -L./$(OBJ_DIR)
 LDSTATIC	= $(shell fltk-config --use-gl --use-images --ldstaticflags ) -L./$(OBJ_DIR)
 LINK		= $(CXX)
@@ -17,10 +19,10 @@ OBJS = $(SRCS:$(SRC_DIR)/%.cc=$(OBJ_DIR)/%.o)
 .SUFFIXES: .o .cc
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
-	$(CXX) --std=c++0x $(CXXFLAGS) $(DEBUG) -o $@ -c $<
+	$(CXX) --std=c++0x $(CXXFLAGS) $(LUACFLAGS) $(DEBUG) -o $@ -c $<
 
 all: $(TARGET)
-	$(LINK) -o $(TARGET) $(OBJS) $(LDSTATIC) $(LUAFLAGS)
+	$(LINK) -o $(TARGET) $(OBJS) $(LDSTATIC) $(LUALFLAGS)
 
 $(TARGET): $(OBJS)
 
