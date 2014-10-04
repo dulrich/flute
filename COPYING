@@ -1,0 +1,54 @@
+=======================
+FLUTE: Fast Light Ultimate Text Editor
+=======================
+
+Copyright 2013 - 2014 David Ulrich
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Source is available online at the following pages:
+
+    http://github.com/dulrich/flute
+
+Please report all bugs and problems on the following page:
+
+    http://github.com/dulrich/flute/issues
+
+====================
+Originally based on Fl_Text_Editor
+====================
+
+	A simple example of Fl_Text_Editor
+
+	Fl_Text_Editor is unlike other FLTK widgets in that
+	to work correctly, it must be assigned to an instance of an
+	Fl_Text_Buffer.  The below shows using buffer() to connect
+	the two classes together.
+
+	Note that the example can also be used to demonstrate
+	Fl_Text_Display; just replace all instances of
+	Fl_Text_Editor with Fl_Text_Display and rebuild.
+
+Copyright 2010 Greg Ercolano.
+Copyright 1998-2010 by Bill Spitzak and others.
+
+This library is free software. Distribution and use rights are outlined in
+the file "COPYING" which should have been included with this file.  If this
+file is missing or damaged, see the license at:
+
+    http://www.fltk.org/COPYING.php
+
+Please report all bugs and problems on the following page:
+
+    http://www.fltk.org/str.php

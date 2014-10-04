@@ -8,3 +8,7 @@ settings = {
 	line_nums = 1,
 	default_buffer_count = 16
 }
+
+shortcuts = {
+
+}
