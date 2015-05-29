@@ -37,7 +37,7 @@ Flute_Config :: Flute_Config(const char* path) {
 	lua_getglobal(L, "settings");
 	lua_pushnil(L);
 
-	while(lua_next(L, -2)) {  // <== here is your mistake
+	while(lua_next(L, -2)) {
 		if(lua_isnumber(L,-1) && lua_isstring(L,-2)) {
 			int val = (int)lua_tonumber(L,-1);
 			const char* name = lua_tostring(L,-2);
