@@ -6,6 +6,17 @@ Uses FLTK: `sudo apt-get install libfltk1.3-dev`
 
 You need some other libraries too, libpng, libjpeg, libxinerama
 
+`sudo apt-get install libpng++-dev libxinerama-dev libjpeg-dev libfontconfig1-dev libxft-dev`
+
+g++ 4.7 or higher is required for compilation.
+```
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install gcc-4.7 g++-4.7
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 20
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.7 20
+```
+
 Default Keyboard Shortcuts:
 *	C-b		Previous Buffer
 *	C-o		Open File
