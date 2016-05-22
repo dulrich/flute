@@ -8,6 +8,10 @@ You need some other libraries too, libpng, libjpeg, libxinerama
 
 `sudo apt-get install libpng++-dev libxinerama-dev libjpeg-dev libfontconfig1-dev libxft-dev`
 
+Lua is required:
+
+`sudo apt-get install liblua5.2-dev`
+
 g++ 4.7 or higher is required for compilation.
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
