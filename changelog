@@ -1,0 +1,30 @@
+# todo
+
+* home/end
+* enter split lines
+* character position on type
+* insert mode
+* line numbering
+* save buffer
+* open file (ctrl-p search)
+* mouse/key selection
+
+## FIND mode
+* find and replace input boxes
+* next/prev
+* replace
+* replace all
+
+================================================================================
+
+# changelog
+
+* 2016-06-01 -- 0.0.3
+* improved enter
+* basic arrow keys
+
+* 2016-06-01 -- 0.0.2
+* basic basckspace/enter support for edit area
+
+* 2016-06-01 -- 0.0.1
+* basic cmd functionality (exit)

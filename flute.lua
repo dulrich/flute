@@ -18,13 +18,29 @@ require "config/config"
 local curses = require "curses"
 local screen = curses.initscr()
 
+local KEY = {
+	ENTER = 10,
+	ESC   = 27,
+	
+	UP    = 259,
+	DOWN  = 258,
+	LEFT  = 260,
+	RIGHT = 261,
+	
+	HOME   = 262,
+	END    = 360,
+	
+	DELETE = 330,
+	BSPACE = 263
+}
+
 local MODE_T = {
 	EDIT = 0,
 	CMD  = 1,
 	FIND = 2
 }
 local MODE = MODE_T.EDIT
-	
+
 local layout = {}
 layout[MODE_T.EDIT] = {
 	origin = { x = 0, y = 0 },
@@ -81,10 +97,14 @@ function cmd_print(str)
 	cprint(str)
 end
 
-function line_print()
-	screen:move(state.cursor.pos_edit_0.y, 0)
+function line_print(y)
+	y = y or state.cursor.pos_edit_0.y
 	
-	cprint(state.buffer[state.cursor.pos_edit_0.y])
+	screen:move(y, 0)
+	
+	cprint(state.buffer[y])
+	
+	screen:move(state.cursor.pos_edit_0.y, state.cursor.pos_edit_0.x)
 end
 
 
@@ -123,6 +143,13 @@ local function get_indent_chars()
 	end
 end
 
+local function shift_buffer()
+	for i = (#state.buffer + 1), (state.cursor.pos_edit_0.y + 1), -1 do
+		state.buffer[i] = state.buffer[i - 1]
+		line_print(i)
+	end
+end
+
 
 local function main()
 	local input
@@ -130,7 +157,7 @@ local function main()
 	curses.cbreak()
 	curses.echo(false)
 	curses.nl(0)
-
+	curses.keypad()
 	-- redraw()
 	
 	while true do
@@ -138,15 +165,15 @@ local function main()
 		
 		-- redraw()
 		
-		if input == 59 then
+		if input == 96 and MODE ~= MODE_T.CMD then
 			MODE = MODE_T.CMD
 			input = 0
 			-- draw cmd line
 		elseif input == 6 then
-			MODE = MODE_T.CMD
+			MODE = MODE_T.FIND
 			input = 0
 			-- draw find line
-		elseif input == 27 then
+		elseif input == KEY.ESC then
 			MODE = MODE_T.EDIT
 			input = 0
 			-- draw status line
@@ -154,13 +181,13 @@ local function main()
 		end
 		
 		if MODE == MODE_T.CMD then
-			if input == 10 then
+			if input == KEY.ENTER then
 				if cmd_exec(state.cmd) == 1 then
 					curses.endwin()
 					break
 				end
 				state.cmd = ""
-			elseif input == 127 then
+			elseif input == KEY.BSPACE then
 				delete_char()
 			elseif input == 0 then
 				-- nothing
@@ -170,23 +197,37 @@ local function main()
 			end
 			cmd_print(": " .. state.cmd)
 		elseif MODE == MODE_T.FIND then
-			
+			-- find / replace
 		else -- EDIT
-			if input == 10 then
+			if input == KEY.ENTER then
 				-- if selection delete it
 				-- insert a line, shift the buffer down
 				state.cursor.pos_edit_0.y = state.cursor.pos_edit_0.y + 1
-				state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y] or ""
-			elseif input == 127 then
+				shift_buffer()
+				state.buffer[state.cursor.pos_edit_0.y] = get_indent_chars()
+				state.cursor.pos_edit_0.x = math.min(state.cursor.pos_edit_0.x, #state.buffer[state.cursor.pos_edit_0.y])
+			elseif input == KEY.UP then
+				state.cursor.pos_edit_0.y = math.max(state.cursor.pos_edit_0.y - 1, 0)
+				state.cursor.pos_edit_0.x = math.min(state.cursor.pos_edit_0.x, #state.buffer[state.cursor.pos_edit_0.y])
+			elseif input == KEY.DOWN then
+				state.cursor.pos_edit_0.y = math.min(state.cursor.pos_edit_0.y + 1, #state.buffer)
+				state.cursor.pos_edit_0.x = math.min(state.cursor.pos_edit_0.x, #state.buffer[state.cursor.pos_edit_0.y])
+			elseif input == KEY.LEFT then
+				state.cursor.pos_edit_0.x = math.max(state.cursor.pos_edit_0.x - 1, 0)
+			elseif input == KEY.RIGHT then
+				cmd_print("len " .. #state.buffer[state.cursor.pos_edit_0.y] .. " (" .. state.buffer[state.cursor.pos_edit_0.y] .. ")")
+				state.cursor.pos_edit_0.x = math.min(state.cursor.pos_edit_0.x + 1, #state.buffer[state.cursor.pos_edit_0.y])
+			elseif input == KEY.BSPACE then
 				-- if selection delete it
 				-- else delete one char
 				delete_char()
 			elseif input == 0 then
 				-- nothing
-			else
+			elseif input >= 32 and input <= 124 then
 				state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y] .. string.char(input)
 				state.cursor.pos_edit_0.x = state.cursor.pos_edit_0.x + 1
 			end
+			cmd_print("pressed: " .. curses.keyname(input) .. " [" .. input .. "] " .. state.cursor.pos_edit_0.y .. ", " .. state.cursor.pos_edit_0.x)
 			line_print()
 		end
 	end
