@@ -44,6 +44,7 @@ local settings = {
 }
 
 local state = {
+	buffer = {},
 	cmd = "",
 	find = {
 		search  = "",
@@ -61,7 +62,7 @@ local state = {
 	},
 	insert = 0
 }
-
+state.buffer[0] = ""
 
 function cprint(str)
 	str = str or ""
@@ -71,13 +72,19 @@ function cprint(str)
 end
 
 function cmd_print(str)
-	local y,x,t
+	local y, x
 	
-	y,x = screen:getmaxyx()
+	y, x = screen:getmaxyx()
 	
-	screen:move(y - 1,0)
+	screen:move(y - 1, 0)
 	
 	cprint(str)
+end
+
+function line_print()
+	screen:move(state.cursor.pos_edit_0.y, 0)
+	
+	cprint(state.buffer[state.cursor.pos_edit_0.y])
 end
 
 
@@ -93,7 +100,10 @@ end
 
 local function delete_char()
 	if MODE == MODE_T.EDIT then
-		
+		if state.buffer[state.cursor.pos_edit_0.y] ~= "" and state.cursor.pos_edit_0.x ~= 0 then
+			state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y]:sub(0, state.cursor.pos_edit_0.x - 1) .. state.buffer[state.cursor.pos_edit_0.y]:sub(state.cursor.pos_edit_0.x + 1)
+			state.cursor.pos_edit_0.x = state.cursor.pos_edit_0.x - 1
+		end
 	elseif MODE == MODE_T.FIND then
 		
 	elseif MODE == MODE_T.CMD then
@@ -165,6 +175,8 @@ local function main()
 			if input == 10 then
 				-- if selection delete it
 				-- insert a line, shift the buffer down
+				state.cursor.pos_edit_0.y = state.cursor.pos_edit_0.y + 1
+				state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y] or ""
 			elseif input == 127 then
 				-- if selection delete it
 				-- else delete one char
@@ -172,8 +184,10 @@ local function main()
 			elseif input == 0 then
 				-- nothing
 			else
-				
+				state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y] .. string.char(input)
+				state.cursor.pos_edit_0.x = state.cursor.pos_edit_0.x + 1
 			end
+			line_print()
 		end
 	end
 	
@@ -186,4 +200,4 @@ local function err (err)
 	os.exit (2)
 end
 
-xpcall(main,err)
+xpcall(main, err)
