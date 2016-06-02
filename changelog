@@ -2,7 +2,6 @@
 
 * home/end
 * enter split lines
-* character position on type
 * insert mode
 * line numbering
 * save buffer
@@ -18,6 +17,9 @@
 ================================================================================
 
 # changelog
+
+* 2016-06-02 -- 0.0.4
+* character position on type
 
 * 2016-06-01 -- 0.0.3
 * improved enter

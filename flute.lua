@@ -95,6 +95,8 @@ function cmd_print(str)
 	screen:move(y - 1, 0)
 	
 	cprint(str)
+	
+	screen:move(y - 1, state.cursor.pos_cmd_0.x + 2)
 end
 
 function line_print(y)
@@ -143,6 +145,26 @@ local function get_indent_chars()
 	end
 end
 
+local function insert_char(input)
+	if MODE == MODE_T.EDIT then
+		if state.buffer[state.cursor.pos_edit_0.y] == "" or state.cursor.pos_edit_0.x == 0 then
+			state.buffer[state.cursor.pos_edit_0.y] = string.char(input) .. state.buffer[state.cursor.pos_edit_0.y]
+		else
+			state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y]:sub(0, state.cursor.pos_edit_0.x) .. string.char(input) .. state.buffer[state.cursor.pos_edit_0.y]:sub(state.cursor.pos_edit_0.x + 1)
+		end
+		state.cursor.pos_edit_0.x = state.cursor.pos_edit_0.x + 1
+	elseif MODE == MODE_T.FIND then
+		
+	elseif MODE == MODE_T.CMD then
+		if state.cmd == "" or state.cursor.pos_cmd_0.x == 0 then
+			state.cmd = string.char(input) .. state.cmd
+		else
+			state.cmd = state.cmd:sub(0, state.cursor.pos_cmd_0.x) .. string.char(input) .. state.cmd:sub(state.cursor.pos_cmd_0.x + 1)
+		end
+		state.cursor.pos_cmd_0.x = state.cursor.pos_cmd_0.x + 1
+	end
+end
+
 local function shift_buffer()
 	for i = (#state.buffer + 1), (state.cursor.pos_edit_0.y + 1), -1 do
 		state.buffer[i] = state.buffer[i - 1]
@@ -172,7 +194,7 @@ local function main()
 		elseif input == 6 then
 			MODE = MODE_T.FIND
 			input = 0
-			-- draw find line
+			-- draw find line|
 		elseif input == KEY.ESC then
 			MODE = MODE_T.EDIT
 			input = 0
@@ -187,13 +209,16 @@ local function main()
 					break
 				end
 				state.cmd = ""
+			elseif input == KEY.LEFT then
+				state.cursor.pos_cmd_0.x = math.max(state.cursor.pos_cmd_0.x - 1, 0)
+			elseif input == KEY.RIGHT then
+				state.cursor.pos_cmd_0.x = math.min(state.cursor.pos_cmd_0.x + 1, #state.cmd)
 			elseif input == KEY.BSPACE then
 				delete_char()
 			elseif input == 0 then
 				-- nothing
-			else
-				state.cmd = state.cmd .. string.char(input)
-				state.cursor.pos_cmd_0.x = state.cursor.pos_cmd_0.x + 1
+			elseif input >= 32 and input <= 124 then
+				insert_char(input)
 			end
 			cmd_print(": " .. state.cmd)
 		elseif MODE == MODE_T.FIND then
@@ -215,7 +240,6 @@ local function main()
 			elseif input == KEY.LEFT then
 				state.cursor.pos_edit_0.x = math.max(state.cursor.pos_edit_0.x - 1, 0)
 			elseif input == KEY.RIGHT then
-				cmd_print("len " .. #state.buffer[state.cursor.pos_edit_0.y] .. " (" .. state.buffer[state.cursor.pos_edit_0.y] .. ")")
 				state.cursor.pos_edit_0.x = math.min(state.cursor.pos_edit_0.x + 1, #state.buffer[state.cursor.pos_edit_0.y])
 			elseif input == KEY.BSPACE then
 				-- if selection delete it
@@ -224,8 +248,7 @@ local function main()
 			elseif input == 0 then
 				-- nothing
 			elseif input >= 32 and input <= 124 then
-				state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y] .. string.char(input)
-				state.cursor.pos_edit_0.x = state.cursor.pos_edit_0.x + 1
+				insert_char(input)
 			end
 			cmd_print("pressed: " .. curses.keyname(input) .. " [" .. input .. "] " .. state.cursor.pos_edit_0.y .. ", " .. state.cursor.pos_edit_0.x)
 			line_print()
