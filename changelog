@@ -1,6 +1,5 @@
 # todo
 
-* home/end
 * enter split lines
 * insert mode
 * line numbering
@@ -17,6 +16,9 @@
 ================================================================================
 
 # changelog
+
+* 2016-06-03 -- 0.0.5
+* home/end
 
 * 2016-06-02 -- 0.0.4
 * character position on type

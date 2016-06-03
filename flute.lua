@@ -213,6 +213,10 @@ local function main()
 				state.cursor.pos_cmd_0.x = math.max(state.cursor.pos_cmd_0.x - 1, 0)
 			elseif input == KEY.RIGHT then
 				state.cursor.pos_cmd_0.x = math.min(state.cursor.pos_cmd_0.x + 1, #state.cmd)
+			elseif input == KEY.HOME then
+				state.cursor.pos_cmd_0.x = 0
+			elseif input == KEY.END then
+				state.cursor.pos_cmd_0.x = #state.cmd
 			elseif input == KEY.BSPACE then
 				delete_char()
 			elseif input == 0 then
@@ -241,6 +245,10 @@ local function main()
 				state.cursor.pos_edit_0.x = math.max(state.cursor.pos_edit_0.x - 1, 0)
 			elseif input == KEY.RIGHT then
 				state.cursor.pos_edit_0.x = math.min(state.cursor.pos_edit_0.x + 1, #state.buffer[state.cursor.pos_edit_0.y])
+			elseif input == KEY.HOME then
+				state.cursor.pos_edit_0.x = 0
+			elseif input == KEY.END then
+				state.cursor.pos_edit_0.x = #state.buffer[state.cursor.pos_edit_0.y]
 			elseif input == KEY.BSPACE then
 				-- if selection delete it
 				-- else delete one char

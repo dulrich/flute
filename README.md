@@ -31,12 +31,11 @@ Default Keyboard Shortcuts:
 
 # license
 
-Copyright 2013 - 2015  David Ulrich (http://github.com/dulrich)
+Copyright 2013 - 2016  David Ulrich (http://github.com/dulrich)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+the Free Software Foundation, version 3 of the License.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
