@@ -80,6 +80,10 @@ local state = {
 }
 state.buffer[0] = ""
 
+function number(n)
+	return tonumber(n) or 0
+end
+
 function cprint(str)
 	str = str or ""
 	
@@ -120,18 +124,20 @@ local function cmd_exec(cmd)
 	end
 end
 
-local function delete_char()
+local function delete_char(offset)
+	offset = number(offset)
+	
 	if MODE == MODE_T.EDIT then
-		if state.buffer[state.cursor.pos_edit_0.y] ~= "" and state.cursor.pos_edit_0.x ~= 0 then
-			state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y]:sub(0, state.cursor.pos_edit_0.x - 1) .. state.buffer[state.cursor.pos_edit_0.y]:sub(state.cursor.pos_edit_0.x + 1)
-			state.cursor.pos_edit_0.x = state.cursor.pos_edit_0.x - 1
+		if state.buffer[state.cursor.pos_edit_0.y] ~= "" and state.cursor.pos_edit_0.x + offset ~= 0 then
+			state.buffer[state.cursor.pos_edit_0.y] = state.buffer[state.cursor.pos_edit_0.y]:sub(0, state.cursor.pos_edit_0.x - 1 + offset) .. state.buffer[state.cursor.pos_edit_0.y]:sub(state.cursor.pos_edit_0.x + 1 + offset)
+			state.cursor.pos_edit_0.x = state.cursor.pos_edit_0.x - 1 + offset
 		end
 	elseif MODE == MODE_T.FIND then
 		
 	elseif MODE == MODE_T.CMD then
-		if state.cmd ~= "" and state.cursor.pos_cmd_0.x ~= 0 then
-			state.cmd = state.cmd:sub(0, state.cursor.pos_cmd_0.x - 1) .. state.cmd:sub(state.cursor.pos_cmd_0.x + 1)
-			state.cursor.pos_cmd_0.x = state.cursor.pos_cmd_0.x - 1
+		if state.cmd ~= "" and state.cursor.pos_cmd_0.x + offset ~= 0 then
+			state.cmd = state.cmd:sub(0, state.cursor.pos_cmd_0.x + offset - 1) .. state.cmd:sub(state.cursor.pos_cmd_0.x + 1 + offset)
+			state.cursor.pos_cmd_0.x = state.cursor.pos_cmd_0.x + offset - 1
 		end
 	end
 end
@@ -218,7 +224,9 @@ local function main()
 			elseif input == KEY.END then
 				state.cursor.pos_cmd_0.x = #state.cmd
 			elseif input == KEY.BSPACE then
-				delete_char()
+				delete_char(0)
+			elseif input == KEY.DELETE then
+				delete_char(1)
 			elseif input == 0 then
 				-- nothing
 			elseif input >= 32 and input <= 124 then
@@ -252,10 +260,12 @@ local function main()
 			elseif input == KEY.BSPACE then
 				-- if selection delete it
 				-- else delete one char
-				delete_char()
+				delete_char(0)
+			elseif input == KEY.DELETE then
+				delete_char(1)
 			elseif input == 0 then
 				-- nothing
-			elseif input >= 32 and input <= 124 then
+			elseif input == 9 or input >= 32 and input <= 124 then
 				insert_char(input)
 			end
 			cmd_print("pressed: " .. curses.keyname(input) .. " [" .. input .. "] " .. state.cursor.pos_edit_0.y .. ", " .. state.cursor.pos_edit_0.x)
